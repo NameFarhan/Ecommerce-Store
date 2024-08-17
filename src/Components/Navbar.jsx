@@ -123,7 +123,7 @@ const Navbar = () => {
   </Link>
   <Link
     component={RouterLink}
-    to="/"
+    to="/signup"
     sx={{
       position: 'relative',
       color: '#000',
