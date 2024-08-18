@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 
 
-export default function BasicTextFields() {
+export default function BasicTextFields({ login }) {
 
 
   const [name, setName] = useState('')
@@ -32,16 +32,18 @@ const handlePassInput = (e) =>{
   return (
     <>
     <Box sx={{width:'370px',height:'32px',margin:'20px 0 40px 0',position:'relative',right:'4px'}}>
-    <Box  
-      component="form"
-      sx={{
-        '& > :not(style)': {margin:'10px 10px', width: '100%',height:'100%' },
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      <TextField onChange={handleNameInput} value={name} id="standard-basic" type='text' label="Name" variant="standard" />
-    </Box> 
+      {
+        login ? '' : <Box  
+        component="form"
+        sx={{
+          '& > :not(style)': {margin:'10px 10px', width: '100%',height:'100%' },
+        }}
+        noValidate
+        autoComplete="off"
+      >
+        <TextField onChange={handleNameInput} value={name} id="standard-basic" type='text' label="Name" variant="standard" />
+      </Box> 
+    }
 
     {/* 2nd */}
 

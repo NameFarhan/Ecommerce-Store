@@ -1,12 +1,12 @@
 import Box from "@mui/material/Box";
-import { Link } from "@mui/material";
+import { Button, Link } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Signupimage from "../Images/signup.svg";
 import BasicTextFields from "../Mui-Components/SignUpTextField";
 import TextButtons from "../Mui-Components/CreateAccountButton";
 import { Link as RouterLink } from "react-router-dom";
-const SignUpLogin = () => {
+const SignUpLogin = ({ login }) => {
   return (
     <Box sx={{ padding: "60px 135px 60px 0" }}>
       <Grid container>
@@ -29,69 +29,90 @@ const SignUpLogin = () => {
             sx={{ height: "80%", display: "inline-block", padding: "10vh 5vw" }}
           >
             <Box>
-              <Typography
-                sx={{
-                  fontSize: "36px",
-                  fontWeight: "500",
-                  marginBottom: "20px",
-                  letterSpacing: "4px",
-                }}
-              >
-                Create an account
-              </Typography>
+              {login ? (
+                <Typography
+                  sx={{
+                    fontSize: "36px",
+                    fontWeight: "500",
+                    marginBottom: "20px",
+                    letterSpacing: "4px",
+                  }}
+                >
+                  Log in to Exclusive
+                </Typography>
+              ) : (
+                <Typography
+                  sx={{
+                    fontSize: "36px",
+                    fontWeight: "500",
+                    marginBottom: "20px",
+                    letterSpacing: "4px",
+                  }}
+                >
+                  {" "}
+                  Create an account
+                </Typography>
+              )}
               <Typography sx={{ fontSize: "16px", fontWeight: "500" }}>
                 Enter your details below
               </Typography>
               <Box sx={{ position: "relative", bottom: "5px" }}>
-                <BasicTextFields />
+                <BasicTextFields login={login} />
               </Box>
             </Box>
 
-            <Box sx={{ position: "relative", top: "170px" }}>
-              <TextButtons />
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  position: "relative",
-                  top: "25px",
-                }}
-              >
-                <Typography sx={{ fontSize: "16px" }}>
-                  Already have account?
-                </Typography>
-                <Link
-      to="/login"
-      component={RouterLink}
-    sx={{
-      position: 'relative',
-      left:'10px',
-      color: '#000',
-      fontSize: '16px',
-      textDecoration: 'none',
-      fontWeight: '400',
-      '&::after': {
-        content: '""',
-        position: 'absolute',
-        width: '100%',
-        height: '2px',
-        backgroundColor: 'gray',
-        left: 0,
-        bottom: '-4px',
-        transform: 'scaleX(0)',
-        transition: 'transform 0.3s ease-in-out',
-        transformOrigin: 'bottom right',
-      },
-      '&:hover::after': {
-        transform: 'scaleX(1)',
-        transformOrigin: 'bottom left',
-      },
-    }}
-  >
-    Login
-  </Link>
+            {login ? (
+                 <Box sx={{ position: "relative", top: "90px",display:'flex',alignItems:'center',justifyContent:'space-between' }}>
+                  <Button sx={{width:'143px',height:'56px',textTransform:'none'}} color="error" variant="contained">Login</Button>
+                  <Button sx={{textTransform:'none'}} color="error" variant="text">Forget Password?</Button>
+               </Box>
+            ) : (
+              <Box sx={{ position: "relative", top: "170px" }}>
+                <TextButtons />
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    position: "relative",
+                    top: "25px",
+                  }}
+                >
+                  <Typography sx={{ fontSize: "16px" }}>
+                    Already have account?
+                  </Typography>
+                  <Link
+                    to="/login"
+                    component={RouterLink}
+                    sx={{
+                      position: "relative",
+                      left: "10px",
+                      color: "#000",
+                      fontSize: "16px",
+                      textDecoration: "none",
+                      fontWeight: "400",
+                      "&::after": {
+                        content: '""',
+                        position: "absolute",
+                        width: "100%",
+                        height: "2px",
+                        backgroundColor: "gray",
+                        left: 0,
+                        bottom: "-4px",
+                        transform: "scaleX(0)",
+                        transition: "transform 0.3s ease-in-out",
+                        transformOrigin: "bottom right",
+                      },
+                      "&:hover::after": {
+                        transform: "scaleX(1)",
+                        transformOrigin: "bottom left",
+                      },
+                    }}
+                  >
+                    Login
+                  </Link>
+                </Box>
               </Box>
-            </Box>
+            )}
           </Box>
         </Grid>
       </Grid>
