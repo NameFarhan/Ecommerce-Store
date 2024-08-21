@@ -1,75 +1,114 @@
+import * as React from "react";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import { useState } from "react";
 
+export default function BasicTextFields({ login, handleTextFields }) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [pass, setPass] = useState("");
 
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    pass: ""
+  });
 
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import { useState } from 'react';
+  const handleNameInput = (e) => {
+    const value = e.target.value;
+    setName(value);
+    handleTextFields("name", value);
 
+    // Validate username (example: check if it's empty)
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      name: value ? "" : "Name is required"
+    }));
+  };
 
-export default function BasicTextFields({ login }) {
+  const handleEmailInput = (e) => {
+    const value = e.target.value;
+    setEmail(value);
+    handleTextFields("email", value);
 
+    // Validate email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      email: emailRegex.test(value) ? "" : "Invalid email address"
+    }));
+  };
 
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [pass, setPass] = useState('')
+  const handlePassInput = (e) => {
+    const value = e.target.value;
+    setPass(value);
+    handleTextFields("password", value);
 
-const handleNameInput = (e) =>{
-  setName(e.target.value)
-}
-
-const handleEmailInput = (e) =>{
-  setEmail(e.target.value)
-}
-
-
-const handlePassInput = (e) =>{
-  setPass(e.target.value)
-}
-
-
+    // Validate password strength (example: minimum 8 characters)
+    const isStrongPassword = value.length >= 8; // Add more conditions as needed
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      pass: isStrongPassword ? "" : "Password must be at least 8 characters long"
+    }));
+  };
 
   return (
-    <>
-    <Box sx={{width:'370px',height:'32px',margin:'20px 0 40px 0',position:'relative',right:'4px'}}>
-      {
-        login ? '' : <Box  
+    <Box sx={{ width: "370px", height: "32px", margin: "20px 0 40px 0", position: "relative", right: "4px" }}>
+      {!login && (
+        <Box
+          component="form"
+          sx={{ "& > :not(style)": { margin: "10px 10px", width: "100%", height: "100%" } }}
+          noValidate
+          autoComplete="off"
+        >
+          <TextField
+            onChange={handleNameInput}
+            value={name}
+            id="name"
+            type="text"
+            label="Name"
+            variant="standard"
+            error={!!errors.name}
+            helperText={errors.name}
+          />
+        </Box>
+      )}
+
+      <Box
         component="form"
-        sx={{
-          '& > :not(style)': {margin:'10px 10px', width: '100%',height:'100%' },
-        }}
+        sx={{ "& > :not(style)": { margin: "10px 10px", width: "100%", height: "100%" } }}
         noValidate
         autoComplete="off"
       >
-        <TextField onChange={handleNameInput} value={name} id="standard-basic" type='text' label="Name" variant="standard" />
-      </Box> 
-    }
+        <TextField
+          onChange={handleEmailInput}
+          value={email}
+          id="email"
+          type="email"
+          label="Email or Phone Number"
+          variant="standard"
+          error={!!errors.email}
+          helperText={errors.email}
+        />
+      </Box>
 
-    {/* 2nd */}
-
-    <Box
-      component="form"
-      sx={{
-        '& > :not(style)': {margin:'10px 10px', width: '100%',height:'100%' },
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      <TextField onChange={handleEmailInput} value={email} id="standard-basic" type='email' label="Email or Phone Number" variant="standard" />
-    </Box> 
-
-  {/* 3rd  */}
-  <Box
-      component="form"
-      sx={{
-        '& > :not(style)': {margin:'10px 10px', width: '100%',height:'100%' },
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      <TextField onChange={handlePassInput} value={pass} id="standard-basic" label="Password" type='password' variant="standard" />
-    </Box> 
-</Box>
-</>
+      <Box
+        component="form"
+        sx={{ "& > :not(style)": { margin: "10px 10px", width: "100%", height: "100%" } }}
+        noValidate
+        autoComplete="off"
+      >
+        <TextField
+          onChange={handlePassInput}
+          value={pass}
+          id="password"
+          label="Password"
+          type="password"
+          variant="standard"
+          error={!!errors.pass}
+          helperText={errors.pass}
+        />
+      </Box>
+    </Box>
   );
 }

@@ -5,8 +5,40 @@ import Typography from "@mui/material/Typography";
 import Signupimage from "../Images/signup.svg";
 import BasicTextFields from "../Mui-Components/SignUpTextField";
 import TextButtons from "../Mui-Components/CreateAccountButton";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useState, useEffect } from "react";
+
 const SignUpLogin = ({ login }) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const navigate = useNavigate();
+
+  const handleCreateAccount = () => {
+    axios
+      .post("http://localhost:3000/signup", formData)
+      .then((response) => {
+        console.log(response.data);
+        navigate("/")
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleTextFields = (field, value) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [field]: value,
+    }));
+  };
+
+  // Log the createAccount prop whenever it changes
+
   return (
     <Box sx={{ padding: "60px 135px 60px 0" }}>
       <Grid container>
@@ -25,9 +57,7 @@ const SignUpLogin = ({ login }) => {
         </Grid>
 
         <Grid item xs={5}>
-          <Box
-            sx={{ height: "80%", display: "inline-block", padding: "10vh 5vw" }}
-          >
+          <Box sx={{ height: "80%", display: "inline-block", padding: "10vh 5vw" }}>
             <Box>
               {login ? (
                 <Typography
@@ -49,7 +79,6 @@ const SignUpLogin = ({ login }) => {
                     letterSpacing: "4px",
                   }}
                 >
-                  {" "}
                   Create an account
                 </Typography>
               )}
@@ -57,28 +86,48 @@ const SignUpLogin = ({ login }) => {
                 Enter your details below
               </Typography>
               <Box sx={{ position: "relative", bottom: "5px" }}>
-                <BasicTextFields login={login} />
+                <BasicTextFields handleTextFields={handleTextFields} login={login} />
               </Box>
             </Box>
 
             {login ? (
-                 <Box sx={{ position: "relative", top: "90px",display:'flex',alignItems:'center',justifyContent:'space-between' }}>
-                  <Button sx={{width:'143px',height:'56px',textTransform:'none'}} color="error" variant="contained">Login</Button>
-                  <Button sx={{textTransform:'none'}} color="error" variant="text">Forget Password?</Button>
-               </Box>
+              <Box
+                sx={{
+                  position: "relative",
+                  top: "90px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Button
+                  sx={{ width: "143px", height: "56px", marginTop: '15px', textTransform: "none" }}
+                  color="error"
+                  variant="contained"
+                >
+                  Login
+                </Button>
+                <Button
+                  sx={{ textTransform: "none" }}
+                  color="error"
+                  variant="text"
+                >
+                  Forget Password?
+                </Button>
+              </Box>
             ) : (
               <Box sx={{ position: "relative", top: "170px" }}>
-                <TextButtons />
+                <TextButtons handleCreateAccount={handleCreateAccount} />
                 <Box
                   sx={{
                     display: "flex",
                     alignItems: "center",
                     position: "relative",
-                    top: "25px",
+                    top: "45px",
                   }}
                 >
                   <Typography sx={{ fontSize: "16px" }}>
-                    Already have account?
+                    Already have an account?
                   </Typography>
                   <Link
                     to="/login"
