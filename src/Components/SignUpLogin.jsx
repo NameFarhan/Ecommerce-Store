@@ -1,29 +1,31 @@
 import Box from "@mui/material/Box";
-import { Button, Link } from "@mui/material";
+import { Button, Link, Modal, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 import Signupimage from "../Images/signup.svg";
 import BasicTextFields from "../Mui-Components/SignUpTextField";
 import TextButtons from "../Mui-Components/CreateAccountButton";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SignUpLogin = ({ login }) => {
+  const [success, setSuccess] = useState(false);
+
+  const navigate = useNavigate()
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
   });
 
-  const navigate = useNavigate();
-
   const handleCreateAccount = () => {
     axios
       .post("http://localhost:3000/signup", formData)
       .then((response) => {
         console.log(response.data);
-        navigate("/")
+        setSuccess(true);
       })
       .catch((error) => {
         console.log(error);
@@ -37,10 +39,52 @@ const SignUpLogin = ({ login }) => {
     }));
   };
 
-  // Log the createAccount prop whenever it changes
+  // Close the dialog box
+  const handleCloseDialog = () => {
+    setSuccess(false);
+    navigate('/')
+  };
 
   return (
-    <Box sx={{ padding: "60px 135px 60px 0" }}>
+    <Box sx={{ padding: "60px 135px 60px 0", position: "relative" }}>
+      {/* Modal dialog box */}
+      <Modal
+        open={success}
+        onClose={handleCloseDialog}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            borderRadius: "8px",
+            boxShadow: 24,
+            p: 4,
+            textAlign: "center",
+          }}
+        >
+          <Typography id="modal-title" variant="h6" component="h2">
+            Success!
+          </Typography>
+          <Typography id="modal-description" sx={{ mt: 2 }}>
+            Your account has been created successfully.
+          </Typography>
+          <Button
+            onClick={handleCloseDialog}
+            variant="contained"
+            color="error"
+            sx={{ mt: 3,textTransform:'none' }}
+          >
+            Go Back
+          </Button>
+        </Box>
+      </Modal>
+
       <Grid container>
         <Grid item xs={7}>
           <Box sx={{ width: "100%", height: "100%" }}>
