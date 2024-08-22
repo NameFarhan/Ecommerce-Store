@@ -124,7 +124,9 @@ const SignUpLogin = ({ login }) => {
         <Grid item xs={5}>
           <Box
             sx={{
-              display: "inline-block",
+              display: "flex",
+              flexDirection:'column',
+              flexWrap:'wrap',
               padding: "10vh 5vw",
             }}
           >
@@ -170,9 +172,9 @@ const SignUpLogin = ({ login }) => {
                   position: "relative",
                   top: "90px",
                   display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  margin: "70px auto auto auto",
+                  flexDirection:'row',
+                  gap:'100px',
+                  margin: "30px auto auto auto",
                 }}
               >
                 <Button
@@ -186,7 +188,7 @@ const SignUpLogin = ({ login }) => {
                   color="error"
                   variant="contained"
                 >
-                  Login
+                  Log in
                 </Button>
                 <Button
                   sx={{ textTransform: "none",marginTop:'15px' }}
