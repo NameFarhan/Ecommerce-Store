@@ -11,8 +11,9 @@ import { useNavigate } from "react-router-dom";
 
 const SignUpLogin = ({ login }) => {
   const [success, setSuccess] = useState(false);
+  const [loginError, setLoginError] = useState(""); // State for login error message
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -41,8 +42,29 @@ const SignUpLogin = ({ login }) => {
 
   // Close the dialog box
   const handleCloseDialog = () => {
-    setSuccess(false);
-    navigate('/')
+    navigate("/login");
+  };
+
+  // Login handler
+  const handleLogin = () => {
+    axios
+      .post("http://localhost:3000/login", {
+        email: formData.email,
+        password: formData.password,
+      })
+      .then((response) => {
+        console.log("Login successful:", response.data);
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error(error);
+        // Set the error message based on the response
+        if (error.response && error.response.status === 400) {
+          setLoginError("Incorrect email or password !"); // Set error message for incorrect credentials
+        } else {
+          setLoginError("An unexpected error occurred. Please try again.");
+        }
+      });
   };
 
   return (
@@ -50,7 +72,6 @@ const SignUpLogin = ({ login }) => {
       {/* Modal dialog box */}
       <Modal
         open={success}
-        onClose={handleCloseDialog}
         aria-labelledby="modal-title"
         aria-describedby="modal-description"
       >
@@ -78,9 +99,9 @@ const SignUpLogin = ({ login }) => {
             onClick={handleCloseDialog}
             variant="contained"
             color="error"
-            sx={{ mt: 3,textTransform:'none' }}
+            sx={{ mt: 3, textTransform: "none" }}
           >
-            Go Back
+            Go To Login
           </Button>
         </Box>
       </Modal>
@@ -101,7 +122,12 @@ const SignUpLogin = ({ login }) => {
         </Grid>
 
         <Grid item xs={5}>
-          <Box sx={{ height: "80%", display: "inline-block", padding: "10vh 5vw" }}>
+          <Box
+            sx={{
+              display: "inline-block",
+              padding: "10vh 5vw",
+            }}
+          >
             <Box>
               {login ? (
                 <Typography
@@ -130,7 +156,11 @@ const SignUpLogin = ({ login }) => {
                 Enter your details below
               </Typography>
               <Box sx={{ position: "relative", bottom: "5px" }}>
-                <BasicTextFields handleTextFields={handleTextFields} login={login} />
+                <BasicTextFields
+                  handleLoginTextFields={handleTextFields}
+                  handleTextFields={handleTextFields}
+                  login={login}
+                />
               </Box>
             </Box>
 
@@ -142,17 +172,24 @@ const SignUpLogin = ({ login }) => {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
+                  margin: "70px auto auto auto",
                 }}
               >
                 <Button
-                  sx={{ width: "143px", height: "56px", marginTop: '15px', textTransform: "none" }}
+                  onClick={handleLogin}
+                  sx={{
+                    width: "143px",
+                    height: "56px",
+                    marginTop: "15px",
+                    textTransform: "none",
+                  }}
                   color="error"
                   variant="contained"
                 >
                   Login
                 </Button>
                 <Button
-                  sx={{ textTransform: "none" }}
+                  sx={{ textTransform: "none",marginTop:'15px' }}
                   color="error"
                   variant="text"
                 >
@@ -205,6 +242,15 @@ const SignUpLogin = ({ login }) => {
                   </Link>
                 </Box>
               </Box>
+            )}
+
+            {/* Display error message */}
+            {login && loginError && (
+              <Typography
+                sx={{ color: "red", fontSize: "16px", fontWeight: "700" }}
+              >
+                {loginError}
+              </Typography>
             )}
           </Box>
         </Grid>

@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
 
-export default function BasicTextFields({ login, handleTextFields }) {
+export default function BasicTextFields({ login, handleTextFields, handleLoginTextFields }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
