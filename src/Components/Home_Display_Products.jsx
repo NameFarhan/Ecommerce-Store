@@ -1,13 +1,22 @@
-import { Box, Grid, Typography } from "@mui/material";
-import StarIcon from '@mui/icons-material/Star';
-import React from "react";
+import { Box, Grid, Typography, Link } from "@mui/material";
+import StarIcon from "@mui/icons-material/Star";
+import { Link as RouterLink } from "react-router-dom"; // Import Link from react-router-dom
+import { useNavigate } from "react-router-dom";
 
 const Home_Display_Products = ({ products }) => {
+  const navigate = useNavigate();
+
+  const handleMoreDet = (id) => {
+    navigate(`/${id}`);
+  };
+
   // Function to render stars based on rating
   const renderStars = (rating) => {
     const stars = [];
     for (let i = 0; i < Math.floor(rating); i++) {
-      stars.push(<StarIcon key={i} sx={{ color: "#FFAD33", fontSize: "18px" }} />);
+      stars.push(
+        <StarIcon key={i} sx={{ color: "#FFAD33", fontSize: "18px" }} />
+      );
     }
     return stars;
   };
@@ -23,39 +32,40 @@ const Home_Display_Products = ({ products }) => {
                 width: "100%",
                 height: "100%",
                 padding: "20px 10px",
-                position: "relative", // Set position to relative to position overlay
-                overflow: "hidden",   // Ensure overflow is hidden
+                position: "relative",
+                overflow: "hidden",
                 "&:hover .overlay": {
-                  opacity: 1,         // Show overlay on hover
-                  transform: "translateY(0)", // Move overlay into view
+                  opacity: 1,
+                  transform: "translateY(0)",
                 },
               }}
             >
-              {/* product image */}
+              {/* Product image */}
               <Box
                 sx={{
                   width: "270px",
                   height: "250px",
                   display: "flex",
-                  cursor:'pointer',
+                  cursor: "pointer",
                   justifyContent: "center",
                   alignItems: "center",
-                  backgroundColor: '#F9F9F9',
-                  position: "relative", // Ensure this is also relative
-                  overflow: "hidden",   // Ensure overflow is hidden
+                  backgroundColor: "#F9F9F9",
+                  position: "relative",
+                  overflow: "hidden",
                 }}
               >
                 <Box
                   component="img"
                   sx={{
                     display: "block",
-                    width: "65%",
-                    height: "60%",
+                    width: "172px",
+                    height: "180px",
                     backgroundColor: "transparent",
                     objectFit: "contain",
                   }}
                   alt="Product_image"
                   src={product.image}
+                  onClick={() => handleMoreDet(product.id)} // Use navigate function on image click
                 />
                 {/* Overlay */}
                 <Box
@@ -71,28 +81,23 @@ const Home_Display_Products = ({ products }) => {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    opacity: 0, // Initially hidden
-                    transform: "translateY(100%)", // Initially out of view
+                    opacity: 0,
+                    transform: "translateY(100%)",
                     transition: "opacity 0.3s ease, transform 0.3s ease",
                     fontSize: "14px",
-                    cursor:'pointer'
+                    cursor: "pointer",
                   }}
+                  onClick={() => handleMoreDet(product.id)} // Use navigate function on overlay click
                 >
-                  Add to Cart
+                  View Details
                 </Box>
               </Box>
-              {/* product image */}
 
               {/* Product content */}
-              <Box sx={{ padding: "20px 0px 0 0",cursor:'pointer', }}>
+              <Box sx={{ padding: "20px 0px 0 0", cursor: "pointer" }}>
                 <Typography sx={{ fontWeight: "500", fontSize: "16px" }}>
-                  {
-                    product.title
-                      .split(" ")                // Split the title into words
-                      .slice(0, 3)               // Keep the first 3 words
-                      .join(" ")                 // Join them back into a string
-                  }
-                  {product.title.split(" ").length > 3 && "...."} {/* Add ellipsis if more than 3 words */}
+                  {product.title.split(" ").slice(0, 3).join(" ")}
+                  {product.title.split(" ").length > 3 && "...."}
                 </Typography>
                 <Box
                   sx={{
@@ -103,11 +108,15 @@ const Home_Display_Products = ({ products }) => {
                   }}
                 >
                   <Typography
-                    sx={{ color: "#DB4444", fontSize: "16px", fontWeight: "900" }}
+                    sx={{
+                      color: "#DB4444",
+                      fontSize: "16px",
+                      fontWeight: "900",
+                    }}
                   >
                     ${product.price}
                   </Typography>
-                  
+
                   {/* Star rating */}
                   <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
                     {renderStars(product.rating.rate)}
