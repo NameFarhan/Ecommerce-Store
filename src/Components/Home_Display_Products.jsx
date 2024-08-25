@@ -1,8 +1,8 @@
-import { Box, Grid, Typography, Link } from "@mui/material";
+import { Box, Grid, Typography, Link, Button } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import { Link as RouterLink } from "react-router-dom"; // Import Link from react-router-dom
 import { useNavigate } from "react-router-dom";
-
+import IconCheckboxes from '../Mui-Components/Wishlist_Herat'
 const Home_Display_Products = ({ products }) => {
   const navigate = useNavigate();
 
@@ -65,7 +65,7 @@ const Home_Display_Products = ({ products }) => {
                   }}
                   alt="Product_image"
                   src={product.image}
-                  onClick={() => handleMoreDet(product.id)} // Use navigate function on image click
+                  onClick={() => handleMoreDet(product.id)} // Use navigate function on overlay click
                 />
                 {/* Overlay */}
                 <Box
@@ -89,8 +89,13 @@ const Home_Display_Products = ({ products }) => {
                   }}
                   onClick={() => handleMoreDet(product.id)} // Use navigate function on overlay click
                 >
-                  View Details
+                  <Typography>View Details</Typography>
+                  {/* Heart Icon Button */}
                 </Box>
+                  <Box sx={{position:'absolute',bottom:'200px',right:'10px'}}>
+                  <IconCheckboxes/>
+                  </Box>
+                
               </Box>
 
               {/* Product content */}
@@ -118,7 +123,9 @@ const Home_Display_Products = ({ products }) => {
                   </Typography>
 
                   {/* Star rating */}
-                  <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                  <Box
+                    sx={{ display: "flex", alignItems: "center", gap: "5px" }}
+                  >
                     {renderStars(product.rating.rate)}
                     <Typography sx={{ fontSize: "14px", color: "#757575" }}>
                       ({product.rating.count} reviews)
