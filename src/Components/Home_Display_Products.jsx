@@ -1,6 +1,5 @@
 import { Box, Grid, Typography, Link, Button } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
-import { Link as RouterLink } from "react-router-dom"; // Import Link from react-router-dom
 import { useNavigate } from "react-router-dom";
 import IconCheckboxes from '../Mui-Components/Wishlist_Herat'
 const Home_Display_Products = ({ products }) => {
@@ -21,6 +20,8 @@ const Home_Display_Products = ({ products }) => {
     return stars;
   };
 
+
+  
   return (
     <>
       {/* Display products */}
