@@ -3,10 +3,14 @@ import React from "react";
 import { useWishContext } from "../WishContext/WishContext";
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { useNavigate } from "react-router-dom";
 const Wishlist_Content = () => {
-
+  const navigate = useNavigate()
   const { wishpro, handleRemoveWish } = useWishContext(); // Correctly called as a function
 
+  const handleGoCart = () => {
+    navigate('/cart')
+  }
   return (
     <>
       <Box sx={{ padding: "6vh 10vw" }}>
@@ -80,7 +84,7 @@ const Wishlist_Content = () => {
               // onClick={() => handleMoreDet(wishitem.id)} // Use navigate function on overlay click
             >
               <ShoppingCartOutlinedIcon sx={{marginRight:'10px'}}/>
-              <Typography>Add to Cart</Typography>
+              <Typography onClick={handleGoCart}>Add to Cart</Typography>
               {/* Heart Icon Button */}
             </Box>
               <Box sx={{position:'absolute',bottom:'200px',right:'10px'}}>
