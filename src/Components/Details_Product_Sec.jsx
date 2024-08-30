@@ -4,8 +4,13 @@ import axios from "axios";
 import { Box, Button, ButtonGroup, Grid, Typography } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import IconCheckboxes from '../Mui-Components/Wishlist_Herat';
+import { useWishContext } from "../WishContext/WishContext";
+
 
 const Details_Product_Sec = () => {
+
+
+  const {handleAddWish} = useWishContext
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(null);
@@ -207,7 +212,7 @@ const Details_Product_Sec = () => {
                 sx={{ border: "1px solid black", opacity: ".6", width: "40px", height: "40px" }}
                 variant="outlined"
               >
-                <IconCheckboxes />
+                <IconCheckboxes product={product} />
               </Button>
             </Box>
           </Box>
