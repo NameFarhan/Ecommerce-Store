@@ -1,16 +1,14 @@
 import { Box, Grid, Typography, Link, Button } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import { useNavigate } from "react-router-dom";
-import IconCheckboxes from '../Mui-Components/Wishlist_Herat'
-
+import IconCheckboxes from "../Mui-Components/Wishlist_Herat";
 
 const Home_Display_Products = ({ products }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleMoreDet = (id) => {
     navigate(`/${id}`);
-  };
-
+  };  
 
   // Function to render stars based on rating
   const renderStars = (rating) => {
@@ -23,8 +21,6 @@ const Home_Display_Products = ({ products }) => {
     return stars;
   };
 
-
-  
   return (
     <>
       {/* Display products */}
@@ -91,15 +87,15 @@ const Home_Display_Products = ({ products }) => {
                     fontSize: "14px",
                     cursor: "pointer",
                   }}
-                  onClick={() => handleMoreDet(product.id)} // Use navigate function on overlay click
                 >
-                  <Typography>Add To Cart</Typography>
+                  <Typography onClick={() => handleMoreDet(product.id)}>View Details</Typography>
                   {/* Heart Icon Button */}
                 </Box>
-                  <Box sx={{position:'absolute',bottom:'200px',right:'10px'}}>
-                  <IconCheckboxes product={product}/>
-                  </Box>
-                
+                <Box
+                  sx={{ position: "absolute", bottom: "200px", right: "10px" }}
+                >
+                  <IconCheckboxes product={product} />
+                </Box>
               </Box>
 
               {/* Product content */}
