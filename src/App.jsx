@@ -8,6 +8,7 @@ import Cart from "./Pages/Cart";
 import SignUp from "./Pages/SignUp";
 import Login from "./Pages/Login";
 import Details__Page from "./Pages/Details__Page";
+import Checkout from "./Pages/Checkout";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/:id" element={<Details__Page />} /> {/* Dynamic route */}
       </Routes>
     </BrowserRouter>

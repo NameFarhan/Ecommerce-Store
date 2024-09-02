@@ -1,7 +1,7 @@
 import React from "react";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Divider, Typography } from "@mui/material";
 import { useCartContext } from "../CartPageContext/CartContext";
-
+import { useNavigate } from "react-router-dom";
 // Function to truncate the title to the first 5 words
 const truncateTitle = (title) => {
   const words = title.split(" ");
@@ -9,7 +9,21 @@ const truncateTitle = (title) => {
 };
 
 const Cart_Content = () => {
+
+  const navigate = useNavigate()
+
+
   const { cartPro, handleRemoveAllFromCart } = useCartContext();
+
+  // Calculate the total subtotal price for all cart items
+  const totalSubtotal = cartPro.reduce(
+    (acc, cartItem) => acc + cartItem.price * cartItem.quantity,
+    0
+  );
+
+  const handleGoCheckOut = () => {
+    navigate('/checkout')
+  }
 
   return (
     <Box sx={{ padding: "6vh 10vw" }}>
@@ -19,7 +33,7 @@ const Cart_Content = () => {
           alignItems: "center",
           justifyContent: "space-between",
           padding: "0 2vw",
-          marginBottom: "6vh",
+          marginBottom: "80px",
         }}
       >
         <Typography sx={{ fontSize: "16px", fontWeight: "600" }}>
@@ -88,10 +102,9 @@ const Cart_Content = () => {
                 paddingRight: "42px",
               }}
             >
-                <Typography sx={{ padding: "0 10px" }}>
-                  {cartItem.quantity}
-                </Typography>
-             
+              <Typography sx={{ padding: "0 10px" }}>
+                {cartItem.quantity}
+              </Typography>
             </Box>
 
             {/* Subtotal Box */}
@@ -111,15 +124,76 @@ const Cart_Content = () => {
       })}
 
       {/* Delete Button */}
-      <Button
-        size="large"
-        sx={{ textTransform: "none" }}
-        variant="outlined"
-        color="inherit"
-        onClick={handleRemoveAllFromCart}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          marginTop: "80px",
+          padding: '6vh 2vw',
+
+        }}
       >
-        Return All To Shop
-      </Button>
+        <Button
+          size="large"
+          sx={{ textTransform: "none" }}
+          variant="outlined"
+          color="inherit"
+          onClick={handleRemoveAllFromCart}
+        >
+          Return All To Shop
+        </Button>
+        <Box
+          sx={{
+            border: "1px solid black",
+            width: "470px",
+            height: "324px",
+            padding: "20px 20px",
+            gap:'10px'
+          }}
+        >
+          <Typography sx={{ fontSize: "20px", fontWeight: "600" }}>
+            Cart Total
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginTop:'24px'
+            }}
+          >
+            <Typography>Subtotal</Typography>
+            <Typography>${totalSubtotal.toFixed(2)}</Typography>
+          </Box>
+          <Divider sx={{listStyle:'none',width:'100%',margin:' 14px 0 0 0',borderColor:'black'}} variant="inset" component="li" />
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginTop:'16px'
+            }}
+          >
+            <Typography>Shipping</Typography>
+            <Typography>Free</Typography>
+          </Box>
+          <Divider sx={{listStyle:'none',width:'100%',margin:' 14px 0 0 0',borderColor:'black'}} variant="inset" component="li" />
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginTop:'16px'
+            }}
+          >
+             <Typography>Total</Typography>
+             <Typography>${totalSubtotal.toFixed(2)}</Typography>
+          </Box>
+          {/* Proceed Button */}
+        <Button onClick={handleGoCheckOut} sx={{width:'260px',height:'56px',textTransform:'none',margin:'36px auto auto auto',display:'block'}} color="error" variant="contained">Procees to checkout</Button>
+        </Box>
+      </Box>
     </Box>
   );
 };
