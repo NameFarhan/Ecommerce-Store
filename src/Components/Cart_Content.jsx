@@ -2,9 +2,10 @@ import React from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { useCartContext } from "../CartPageContext/CartContext";
 
+// Function to truncate the title to the first 5 words
 const truncateTitle = (title) => {
-  const words = title.split(' ');
-  return words.slice(0, 3).join(' ') + (words.length > 3 ? '...' : '');
+  const words = title.split(" ");
+  return words.slice(0, 5).join(" ") + (words.length > 5 ? "..." : "");
 };
 
 const Cart_Content = () => {
@@ -35,18 +36,23 @@ const Cart_Content = () => {
         </Typography>
       </Box>
       {cartPro.map((cartItem) => {
+        const subtotalprice = cartItem.price * cartItem.quantity;
         return (
           <Box
-            key={cartItem?.id}
             sx={{
+              marginBottom: "40px",
+              width: "100%",
+              height: "100%",
               display: "flex",
               alignItems: "center",
-              justifyContent: "space-between",
-              padding: "0 0",
+              padding: "0 1.5vw",
             }}
+            key={cartItem.id}
           >
+            {/* Image Box */}
             <Box
               sx={{
+                width: "30%",
                 display: "flex",
                 alignItems: "center",
               }}
@@ -54,30 +60,51 @@ const Cart_Content = () => {
               <Box
                 component="img"
                 sx={{
-                  height: '50px',
-                  width: '50px',
-                  objectFit:'contain'
+                  height: "60px",
+                  width: "50px",
+                  objectFit: "contain",
                 }}
-                alt="cartItem image"
+                alt="cart item image"
                 src={cartItem.image}
               />
-
-              <Typography sx={{ marginLeft: '22px',fontSize:'16px' }}>
+              <Typography sx={{ fontSize: "16px", marginLeft: "20px" }}>
                 {truncateTitle(cartItem.title)}
               </Typography>
             </Box>
-
-            {/* price Box */}
-            <Box sx={{position:'relative',right:'160px' }}>
-              <Typography sx={{fontSize:'16px'}}>${cartItem.price}</Typography>
+            {/* Price Box */}
+            <Box sx={{ width: "20%" }}>
+              <Typography sx={{ fontSize: "16px", marginLeft: "20px" }}>
+                ${cartItem.price}
+              </Typography>
             </Box>
 
+            {/* Quantity Selector Box */}
+            <Box
+              sx={{
+                width: "20%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
+                paddingRight: "42px",
+              }}
+            >
+                <Typography sx={{ padding: "0 10px" }}>
+                  {cartItem.quantity}
+                </Typography>
+             
+            </Box>
 
-            <Box sx={{ border: "1px solid black" }}></Box>
-
-            {/* sub total Box */}
-            <Box sx={{ border: "1px solid black",position:'relative',right:'70px' }}>
-              
+            {/* Subtotal Box */}
+            <Box
+              sx={{
+                width: "30%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
+                paddingRight: "12px",
+              }}
+            >
+              <Typography>${subtotalprice.toFixed(2)}</Typography>
             </Box>
           </Box>
         );
