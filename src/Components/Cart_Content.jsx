@@ -23,6 +23,7 @@ const Cart_Content = () => {
 
   const handleGoCheckOut = () => {
     navigate('/checkout')
+
   }
 
   return (
